@@ -14,4 +14,9 @@ services:
       - 8083:8083
     volumes:
       - ./config:/config
+      - store:/store
     restart: unless-stopped
+
+volumes:
+  store:
+
