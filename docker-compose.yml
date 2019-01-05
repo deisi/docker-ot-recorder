@@ -13,10 +13,11 @@ services:
     ports:
       - 8083:8083
     volumes:
-      - ./config:/config
+      - config:/config
       - store:/store
     restart: unless-stopped
 
 volumes:
   store:
+  config:
 

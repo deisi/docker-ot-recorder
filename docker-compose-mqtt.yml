@@ -7,7 +7,8 @@ services:
     ports:
       - 8083:8083
     volumes:
-      - ./recorder_config:/config
+      - config:/config
+      - store:/store
     restart: unless-stopped
 
   mosquitto:
@@ -16,8 +17,16 @@ services:
       - 1883:1883
       - 8883:8883
     volumes:
-      - ./mosquitto-data:/mosquitto/data/
-      - ./mosquitto-logs:/mosquitto/mosquitto.log
+      - mosquitto-data:/mosquitto/data/
+      - mosquitto-logs:/mosquitto/mosquitto.log
     configs:
       - mosquitto-conf:/mosquitto/config/mosquitto.conf
     restart: unless-stopped
+
+volumes:
+  store:
+  config:
+  mosquitto-data
+  mosquitto-logs
+configs:
+  mosquitto-conf
