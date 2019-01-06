@@ -1,6 +1,6 @@
 FROM alpine
 LABEL version="1.0" description="OwnTracks Recorder"
-LABEL authors="Jan-Piet Mens <jpmens@gmail.com>, Giovanni Angoli <juzam76@gmail.com>, Malte Deiseroth <mdeiseroth88@gmail.com>"
+LABEL authors="Jan-Piet Mens <jpmens@gmail.com>, Giovanni Angoli <juzam76@gmail.com>, Amy Nagle <kabili@zyrenth.com>, Malte Deiseroth <mdeiseroth88@gmail.com>"
 MAINTAINER Malte Deiseroth <mdeiseroth88@gmail.com>
 
 COPY entrypoint.sh /entrypoint.sh
