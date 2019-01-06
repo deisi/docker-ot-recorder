@@ -1,4 +1,5 @@
 # Dockerfile for OwnTracks Recorder
+[![Build Status](https://travis-ci.com/deisi/docker-ot-recorder.svg?branch=master)](https://travis-ci.com/deisi/docker-ot-recorder)
 
 This is a Dockerfile for the [OwnTracks Recorder](https://github.com/owntracks/recorder)(OT-Recorder).
 
