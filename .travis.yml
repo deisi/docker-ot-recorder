@@ -1,0 +1,9 @@
+
+services:
+  - docker
+
+
+before_install:
+  - docker-compose build
+  - docker-compose up -d
+  - docker-compose down
