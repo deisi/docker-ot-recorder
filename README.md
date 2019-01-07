@@ -10,7 +10,7 @@ $ docker volume create recorder_store
 $ docker run -d -p 8083:8083 -v recorder_store:/store -e OTR_HOST=mqtt_broker owntracks/recorder
 ```
 
-Recorder is now accessible at (http://localhost:8083). 
+Recorder is now accessible at http://localhost:8083
 
 `-p 8083:8083` makes the container reachable at port 8083. `-d` detaches the
 container into the background. The volume `recorder_store` is mounted at
@@ -55,10 +55,11 @@ storage. The volume needs to be created explicitly to have persistent data
 storage.
 
 ```
-$ docker volume create storage
-$ docker run -d -p 8083:8083 -v store:/store owntracks/recorder
+$ docker volume create recorder_storage
+$ docker run -d -p 8083:8083 -v recorder_store:/store owntracks/recorder
 ```
 It is also possible to use a local folder instead of an static docker volume.
+
 ```bash
 & mkdir store
 $ docker run -d -p 8083:8083 -v ./store:/store owntracks/recorder
@@ -166,11 +167,12 @@ configs:
 See [here](https://hub.docker.com/_/eclipse-mosquitto) for info on the eclipse-mosquitto image and how to configure.
 
 # Notes
-- certificates volume for OT-Recprder and some documentation
+- certificates volume for Recorder and some documentation
 - Check if lua5.2-libs is needed
 - Check if eclipse-mosquitto is working
 - Maybe put the most common mosquitto options
 - Maybe add letsencrypt
-- Add some defaults so mosquitto and owntracks work right away?
+- Add some defaults so mosquitto and owntracks work right away
 - Do we really want to use `configs` for mosquitto setup?
+- Find out how it works with automatic build tags on travis and automatic docker hub uploading
 
