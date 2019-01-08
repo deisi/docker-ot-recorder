@@ -168,19 +168,17 @@ services:
       - 1883:1883
       - 8883:8883
     volumes:
-      - mosquitto-data:/mosquitto/data/
-      - mosquitto-logs:/mosquitto/mosquitto.log
-    configs:
-      - mosquitto-conf:/mosquitto/config/mosquitto.conf
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-logs:/mosquitto/logs
+      - mosquitto-conf:/mosquitto/config
     restart: unless-stopped
 
 volumes:
   store:
   config:
-  mosquitto-data
-  mosquitto-logs
-configs:
-  mosquitto-conf
+  mosquitto-data:
+  mosquitto-logs:
+  mosquitto-conf:
 ```
 See [here](https://hub.docker.com/_/eclipse-mosquitto) for info on the eclipse-mosquitto image and how to configure.
 
