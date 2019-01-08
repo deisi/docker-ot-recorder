@@ -26,7 +26,7 @@ via the a `recorder.conf` file in the `/config` volume of the container.
 ### Environment variables
 Can be passed to the container with the `-e` parameter. Example:
 ```bash
-$ docker run -d -p 8083:8083 -e OTR_HOST=mqtt_broker -e OTR_PORT=1883 -e OTR_USER=user -3 OTR_PASS=pass owntracks/recorder 
+$ docker run -d -p 8083:8083 -e OTR_HOST=mqtt_broker -e OTR_PORT=1883 -e OTR_USER=user -e OTR_PASS=pass owntracks/recorder
 ```
 
 The complete list of parameters can be found in the [recorder
@@ -43,11 +43,14 @@ $ docker run -d -p 8083:8083 -v recorder_store:/store -v ./config:/config owntra
 ```
 
 Up on starting the recorder, a default `recorder.conf` file will be created if
-none exists. This file can then be added to ones liking. Possible options are
-documented
-[here](https://github.com/owntracks/recorder/blob/master/README.md#configuration-file)
+none exists. Possible options are documented
+[here](https://github.com/owntracks/recorder/blob/master/README.md#configuration-file**
 
-**Note**: Environment variables, overwrite the `recorder.conf` file options.
+**Note:** `OTR_HOST` is as seen from the container. Thus `localhost` refers to
+the container not the host.
+**Note:** Environment variables, overwrite the `recorder.conf` file options.
+**Note:** The shell like style of the`recorder.conf` file needs "" encapsulated
+variable values.
 
 ## Storing data
 The `/store` volume of the container is used for persistent location data
@@ -61,7 +64,7 @@ $ docker run -d -p 8083:8083 -v recorder_store:/store owntracks/recorder
 It is also possible to use a local folder instead of an static docker volume.
 
 ```bash
-& mkdir store
+$ mkdir store
 $ docker run -d -p 8083:8083 -v ./store:/store owntracks/recorder
 ```
 
@@ -70,9 +73,23 @@ automatically. However up on recreation of the docker container, this process
 will be repeated and another unique volume will be created. As a result, the
 container will have forgotten about previous tracks.
 
+## TLS between MQTT broker and Recorder
+The `OTR_CAPATH` of the container defaults to the `/config` volume. Thus
+certificates and key files belong into the `/config` volume. `OTR_CAFILE` must be configured for TLS.
+
+`OTR_CERTFILE` defaults to `cert.pem` and `OTR_KEYFILE` to `key.pem`. These files are optional and the options are ignored if the files don't exist.
+
+## TLS encryption via reverse proxy
+
+The Recorder has no encryption module by it self. Instead use a reverse proxy
+setup. See https://github.com/jwilder/nginx-proxy for how to do this in a semi
+automatic way with docker containers and
+https://github.com/owntracks/recorder#reverse-proxy for Recorder specific
+details.
+
 ## Docker compose files
-Save a file with the name `docker-compose.yml` and following content. Run it
-with `docker-compose up` from the same folder.
+Save a file with the name `docker-compose.yml` and following content. Run with
+`docker-compose up` from the same folder.
 
 ``` yaml
 version: '3'
@@ -117,15 +134,16 @@ services:
       - store:/store
     restart: unless-stopped
     environment:
-      - OTR_HOST=mqtt_broker
-      - OTR_USER=user
-      - OTR_PASS=pass
+      - OTR_HOST: "mqtt_broker"
+      - OTR_USER: "user"
+      - OTR_PASS: "pass"
 
 volumes:
   store:
 
 ```
 
+### With MQTT broker
 If an mqtt broker is needed mosquitto can be used. There are ready to use
 containers available on docker hub. To use `eclipse-mosquitto` add the following
 to you `docker-compose.yml` file.
@@ -166,13 +184,13 @@ configs:
 ```
 See [here](https://hub.docker.com/_/eclipse-mosquitto) for info on the eclipse-mosquitto image and how to configure.
 
+
 # Notes
-- certificates volume for Recorder and some documentation
-- Check if lua5.2-libs is needed
-- Check if eclipse-mosquitto is working
+- ~~certificates volume for Recorder and some documentation~~
+- ~~Check if lua5.2-libs is needed~~
+- ~~Check if eclipse-mosquitto is working~~
 - Maybe put the most common mosquitto options
 - Maybe add letsencrypt
-- Add some defaults so mosquitto and owntracks work right away
-- Do we really want to use `configs` for mosquitto setup?
+- ~~Add some defaults so mosquitto and owntracks work right away~~
 - Find out how it works with automatic build tags on travis and automatic docker hub uploading
 
