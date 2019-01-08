@@ -46,18 +46,18 @@ Up on starting the recorder, a default `recorder.conf` file will be created if
 none exists. Possible options are documented
 [here](https://github.com/owntracks/recorder/blob/master/README.md#configuration-file**
 
-**Note:** `OTR_HOST` is as seen from the container. Thus `localhost` refers to
+**Notes:**
+- `OTR_HOST` is as seen from the container. Thus `localhost` refers to
 the container not the host.
-**Note:** Environment variables, overwrite the `recorder.conf` file options.
-**Note:** The shell like style of the`recorder.conf` file needs "" encapsulated
+- Environment variables, overwrite the `recorder.conf` file options.
+- The shell like style of the`recorder.conf` file needs "" encapsulated
 variable values.
 
 ## Storing data
-The `/store` volume of the container is used for persistent location data
-storage. The volume needs to be created explicitly to have persistent data
-storage.
+The `/store` volume of the container is used for persistent storage of location
+data. The volume needs to be created explicitly.
 
-```
+```bash
 $ docker volume create recorder_storage
 $ docker run -d -p 8083:8083 -v recorder_store:/store owntracks/recorder
 ```
@@ -112,8 +112,8 @@ volumes:
 ```
 
 This `docker-compose.yml` file creates `store` and `config` volumes. It is
-possible to edit the `recorder.conf` file in the `config` volume to get your
-setup up and running. It is also possible to pass environment variables to the
+possible to edit the `recorder.conf` file in the `config` volume to get the
+system up and running. It is also possible to pass environment variables to the
 docker container via the `environment:` keyword. For details see
 [here](https://docs.docker.com/compose/environment-variables/) and for available
 variables see
